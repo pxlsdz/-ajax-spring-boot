@@ -25,12 +25,17 @@
 </form>
 <script>
 $.get("/bj/list",function(bjList,status){
-	????
-
+	$("#bjSelect").empty();
+	for(var bj in bjList)
+	{
+		$("#bjSelect").append("<option value='" + bjList[bj].id + "'>" + bjList[bj].bjname + "</option>")
+	}
 });
 		 
 $("#btAdd").click(function(){
-	???
+	$.post("/student/add",$("#addForm").serialize(),function(data){
+		alert(data);
+	});
 });
 </script>
 </body>  
