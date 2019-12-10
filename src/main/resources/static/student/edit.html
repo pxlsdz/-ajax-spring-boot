@@ -13,8 +13,8 @@
 <form id="updateForm">
 学号:<input type="text" name="sno" id="sno"/><br>
 姓名：<input type="text" name="sname" id="sname"/><br>
-性别：<input type="radio" name="sex" value="男" >男
-<input type="radio" name="sex" value="女">女
+性别：<input type="radio" name="sex" id="sex1" value="男" >男
+<input type="radio" name="sex" id="sex2" value="女">女
 <br>
 班级:
 <select name="bj.id" id="bjSelect">
@@ -27,8 +27,29 @@
 $("#id").val($.query.get("id"));
 $("#sno").val($.query.get("sno"));
 $("#sname").val($.query.get("sname"));
+if($.query.get("sex") == '男')
+{
+	$("#sex1").prop("checked",true);
+}
+else
+{
+	$("#sex2").prop("checked",true);
+}
 $.get("/bj/list",function(bjList,status){
-	???
+	$("#bjSelect").empty();
+	for(var bj in bjList)
+	{
+		//alert(bjList[bj].bjname)
+		if(bjList[bj].bjname==$.query.get("bjname"))
+			$("#bjSelect").append("<option value='" + bjList[bj].id + "' selected=selected>" + bjList[bj].bjname + "</option>")
+		else 
+			$("#bjSelect").append("<option value='" + bjList[bj].id + "'>" + bjList[bj].bjname + "</option>")
+	}
+});
+$("#updateBt").click(function(){
+	$.post("/student/update",$("#updateForm").serialize(),function(data){
+		alert(data);
+	});
 });
 </script>
 </body>  
