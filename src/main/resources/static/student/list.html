@@ -34,12 +34,28 @@
   <script>
 
 $.get("/student/list",function(studentList,status){
-      ???
+	var tBody=$("#tBody");    	
+	var str="";
+	 for(var index in studentList){
+		 str+="<tr><td>"+studentList[index].sno+"</td>";
+		 str+="<td>"+studentList[index].sname+"</td>";
+		 str+="<td>"+studentList[index].sex+"</td>";
+		 str+="<td>"+studentList[index].bj.bjname+"</td>";
+		 str+="<td><a href=/student/edit.html?id="+studentList[index].id+"&sname="+studentList[index].sname+"&sno="+studentList[index].sno+"&sex="+studentList[index].sex+"&bjname="+studentList[index].bj.bjname+">修改</a></td>";
+		 str+="<td><a href=javascript:del("+studentList[index].id+")>删除</a></td>";
+		 str+="</tr>";             
+     }                       
+	 tBody.append(str);
  });
    
   function del(stid){
-	
-	  
+	  if(confirm("确实要删除吗？")){
+		  $.get("/student/delete?id="+stid,"",function(data){
+			   if(data!="删除成功")
+			    alert(data);
+			  location.reload();
+		  });
+	  }
   }
 </script>
 </body>  
